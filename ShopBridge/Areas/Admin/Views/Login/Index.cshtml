@@ -1,0 +1,88 @@
+﻿@using ShopBridge.HelperUtility
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("~/Areas/Admin/Views/Shared/AllCss.cshtml")
+</head>
+<body data-open="hover" data-menu="horizontal-menu" data-col="1-column" class="horizontal-layout horizontal-menu 1-column  blank-page blank-page">
+    <div class="app-content container center-layout mt-2">
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <section class="flexbox-container">
+                    <div class="col-md-4 offset-md-4 col-xs-10 offset-xs-1  box-shadow-2 p-0">
+                        <div class="card border-grey border-lighten-3 m-0">
+                            <div class="card-header no-border" style="background-color: grey;">
+                                <div class="card-title text-xs-center">
+                                    <div class="p-1">
+                                        <h2>
+                                            Shop Bridge
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body collapse in">
+                                <div class="card-block">
+                                    <form role="form" method="post" action="@Url.Action("Index","Login")">
+                                        <fieldset class="form-group position-relative has-icon-left mb-0">
+                                            <input type="text" class="form-control form-control-lg input-lg" name="LoginID" id="user-name" placeholder="Your Username" required>
+                                            <div class="form-control-position">
+                                                <i class="icon-head"></i>
+                                            </div>
+                                        </fieldset>
+                                        <br />
+                                        <fieldset class="form-group position-relative has-icon-left">
+                                            <input type="password" class="form-control form-control-lg input-lg" name="password" id="password" placeholder="Enter Password" required>
+                                            <div class="form-control-position">
+                                                <i class="icon-key3"></i>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset class="form-group row"></fieldset>
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block"><i class="icon-unlock2"></i> Login</button>
+                                    </form>
+                                    <br />
+                                    <div class="form-group" align="center">
+                                        @if (TempData["LoginError"] != null)
+                                        {
+                                            if ("Invalid LoginId or password" == @TempData["LoginError"].ToString())
+                                            {
+                                                <div class="alert bg-danger alert-icon-left alert-dismissible fade in mb-2" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <strong>@TempData["LoginError"].ToString()</strong>.
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="alert bg-primary alert-icon-left alert-dismissible fade in mb-2" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                    <strong>@TempData["LoginError"].ToString()</strong>.
+                                                </div>
+                                            }
+                                        }
+                                        @Html.RenderMessages()
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer" style="pointer-events: none; opacity: 0.4;">
+                                <div class="">
+                                </div>
+                                <div class="form-group" align="center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/Admin/Views/Shared/AllJs.cshtml")
+</body>
+</html>

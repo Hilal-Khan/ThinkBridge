@@ -1,0 +1,17 @@
+﻿<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(".img-uploader").on('change', function () {
+            console.log('change');
+            var input = $(this);
+            if (input[0].files && input[0].files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $(input).siblings('.img_100').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input[0].files[0]);
+            }
+        })
+    })
+</script>

@@ -1,0 +1,357 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ShopBridgeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="200" />
+          <Property Name="CategoryDescription" Type="nvarchar(max)" />
+          <Property Name="CompanyID" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="EditedOn" Type="datetime" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="EditedBy" Type="int" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="ExCol1Varchar" Type="varchar(max)" />
+          <Property Name="ExCol2Varchar" Type="varchar(max)" />
+          <Property Name="ExCol3Varchar" Type="varchar" MaxLength="2500" />
+          <Property Name="ExCol4Varchar" Type="varchar" MaxLength="2500" />
+          <Property Name="ExCol1Int" Type="int" />
+          <Property Name="ExCol2Int" Type="int" />
+          <Property Name="ExCol3Int" Type="int" />
+          <Property Name="ExCol4Int" Type="int" />
+          <Property Name="ExCol1Bit" Type="bit" />
+          <Property Name="ExCol2Bit" Type="bit" />
+          <Property Name="ExCol3Bit" Type="bit" />
+          <Property Name="ExCol4Bit" Type="bit" />
+          <Property Name="ExCol1Decimal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ExCol2Decimal" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductCode" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProductName" Type="nvarchar" MaxLength="200" />
+          <Property Name="ProductDescription" Type="nvarchar(max)" />
+          <Property Name="SequenceNo" Type="int" />
+          <Property Name="CategoryID" Type="int" />
+          <Property Name="ProductCost" Type="float" />
+          <Property Name="ProductDiscCost" Type="float" />
+          <Property Name="ProductQty" Type="int" />
+          <Property Name="Image" Type="varchar" MaxLength="500" />
+          <Property Name="CompanyID" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="EditedOn" Type="datetime" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="EditedBy" Type="int" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="ExCol1Varchar" Type="varchar(max)" />
+          <Property Name="ExCol2Varchar" Type="varchar(max)" />
+          <Property Name="ExCol3Varchar" Type="varchar" MaxLength="2500" />
+          <Property Name="ExCol4Varchar" Type="varchar" MaxLength="2500" />
+          <Property Name="ExCol1Int" Type="int" />
+          <Property Name="ExCol2Int" Type="int" />
+          <Property Name="ExCol3Int" Type="int" />
+          <Property Name="ExCol4Int" Type="int" />
+          <Property Name="ExCol1Bit" Type="bit" />
+          <Property Name="ExCol2Bit" Type="bit" />
+          <Property Name="ExCol3Bit" Type="bit" />
+          <Property Name="ExCol4Bit" Type="bit" />
+          <Property Name="ExCol1Decimal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ExCol2Decimal" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="500" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="CompanyID" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="EditedOn" Type="datetime" />
+          <Property Name="DeletedOn" Type="datetime" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="EditedBy" Type="int" />
+          <Property Name="DeletedBy" Type="int" />
+          <Property Name="ExCol1Varchar" Type="varchar(max)" />
+          <Property Name="ExCol2Varchar" Type="varchar(max)" />
+          <Property Name="ExCol3Varchar" Type="varchar" MaxLength="2500" />
+          <Property Name="ExCol4Varchar" Type="varchar" MaxLength="2500" />
+          <Property Name="ExCol1Int" Type="int" />
+          <Property Name="ExCol2Int" Type="int" />
+          <Property Name="ExCol3Int" Type="int" />
+          <Property Name="ExCol4Int" Type="int" />
+          <Property Name="ExCol1Bit" Type="bit" />
+          <Property Name="ExCol2Bit" Type="bit" />
+          <Property Name="ExCol3Bit" Type="bit" />
+          <Property Name="ExCol4Bit" Type="bit" />
+          <Property Name="ExCol1Decimal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ExCol2Decimal" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityContainer Name="ShopBridgeModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemUser" EntityType="Self.SystemUser" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ShopBridgeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ShopBridgeEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Categories" EntityType="ShopBridgeModel.Category" />
+          <EntitySet Name="Products" EntityType="ShopBridgeModel.Product" />
+          <EntitySet Name="SystemUsers" EntityType="ShopBridgeModel.SystemUser" />
+        </EntityContainer>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="EditedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="EditedBy" Type="Int32" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="ExCol1Varchar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol2Varchar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol3Varchar" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol4Varchar" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol1Int" Type="Int32" />
+          <Property Name="ExCol2Int" Type="Int32" />
+          <Property Name="ExCol3Int" Type="Int32" />
+          <Property Name="ExCol4Int" Type="Int32" />
+          <Property Name="ExCol1Bit" Type="Boolean" />
+          <Property Name="ExCol2Bit" Type="Boolean" />
+          <Property Name="ExCol3Bit" Type="Boolean" />
+          <Property Name="ExCol4Bit" Type="Boolean" />
+          <Property Name="ExCol1Decimal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ExCol2Decimal" Type="Decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductCode" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProductName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ProductDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SequenceNo" Type="Int32" />
+          <Property Name="CategoryID" Type="Int32" />
+          <Property Name="ProductCost" Type="Double" />
+          <Property Name="ProductDiscCost" Type="Double" />
+          <Property Name="ProductQty" Type="Int32" />
+          <Property Name="Image" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="EditedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="EditedBy" Type="Int32" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="ExCol1Varchar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol2Varchar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol3Varchar" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol4Varchar" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol1Int" Type="Int32" />
+          <Property Name="ExCol2Int" Type="Int32" />
+          <Property Name="ExCol3Int" Type="Int32" />
+          <Property Name="ExCol4Int" Type="Int32" />
+          <Property Name="ExCol1Bit" Type="Boolean" />
+          <Property Name="ExCol2Bit" Type="Boolean" />
+          <Property Name="ExCol3Bit" Type="Boolean" />
+          <Property Name="ExCol4Bit" Type="Boolean" />
+          <Property Name="ExCol1Decimal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ExCol2Decimal" Type="Decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="EditedOn" Type="DateTime" Precision="3" />
+          <Property Name="DeletedOn" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="EditedBy" Type="Int32" />
+          <Property Name="DeletedBy" Type="Int32" />
+          <Property Name="ExCol1Varchar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol2Varchar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol3Varchar" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol4Varchar" Type="String" MaxLength="2500" FixedLength="false" Unicode="false" />
+          <Property Name="ExCol1Int" Type="Int32" />
+          <Property Name="ExCol2Int" Type="Int32" />
+          <Property Name="ExCol3Int" Type="Int32" />
+          <Property Name="ExCol4Int" Type="Int32" />
+          <Property Name="ExCol1Bit" Type="Boolean" />
+          <Property Name="ExCol2Bit" Type="Boolean" />
+          <Property Name="ExCol3Bit" Type="Boolean" />
+          <Property Name="ExCol4Bit" Type="Boolean" />
+          <Property Name="ExCol1Decimal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ExCol2Decimal" Type="Decimal" Precision="18" Scale="4" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ShopBridgeModelStoreContainer" CdmEntityContainer="ShopBridgeEntities" >
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="ShopBridgeModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="ExCol2Decimal" ColumnName="ExCol2Decimal" />
+                <ScalarProperty Name="ExCol1Decimal" ColumnName="ExCol1Decimal" />
+                <ScalarProperty Name="ExCol4Bit" ColumnName="ExCol4Bit" />
+                <ScalarProperty Name="ExCol3Bit" ColumnName="ExCol3Bit" />
+                <ScalarProperty Name="ExCol2Bit" ColumnName="ExCol2Bit" />
+                <ScalarProperty Name="ExCol1Bit" ColumnName="ExCol1Bit" />
+                <ScalarProperty Name="ExCol4Int" ColumnName="ExCol4Int" />
+                <ScalarProperty Name="ExCol3Int" ColumnName="ExCol3Int" />
+                <ScalarProperty Name="ExCol2Int" ColumnName="ExCol2Int" />
+                <ScalarProperty Name="ExCol1Int" ColumnName="ExCol1Int" />
+                <ScalarProperty Name="ExCol4Varchar" ColumnName="ExCol4Varchar" />
+                <ScalarProperty Name="ExCol3Varchar" ColumnName="ExCol3Varchar" />
+                <ScalarProperty Name="ExCol2Varchar" ColumnName="ExCol2Varchar" />
+                <ScalarProperty Name="ExCol1Varchar" ColumnName="ExCol1Varchar" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="EditedBy" ColumnName="EditedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="EditedOn" ColumnName="EditedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="CategoryDescription" ColumnName="CategoryDescription" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="ShopBridgeModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ExCol2Decimal" ColumnName="ExCol2Decimal" />
+                <ScalarProperty Name="ExCol1Decimal" ColumnName="ExCol1Decimal" />
+                <ScalarProperty Name="ExCol4Bit" ColumnName="ExCol4Bit" />
+                <ScalarProperty Name="ExCol3Bit" ColumnName="ExCol3Bit" />
+                <ScalarProperty Name="ExCol2Bit" ColumnName="ExCol2Bit" />
+                <ScalarProperty Name="ExCol1Bit" ColumnName="ExCol1Bit" />
+                <ScalarProperty Name="ExCol4Int" ColumnName="ExCol4Int" />
+                <ScalarProperty Name="ExCol3Int" ColumnName="ExCol3Int" />
+                <ScalarProperty Name="ExCol2Int" ColumnName="ExCol2Int" />
+                <ScalarProperty Name="ExCol1Int" ColumnName="ExCol1Int" />
+                <ScalarProperty Name="ExCol4Varchar" ColumnName="ExCol4Varchar" />
+                <ScalarProperty Name="ExCol3Varchar" ColumnName="ExCol3Varchar" />
+                <ScalarProperty Name="ExCol2Varchar" ColumnName="ExCol2Varchar" />
+                <ScalarProperty Name="ExCol1Varchar" ColumnName="ExCol1Varchar" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="EditedBy" ColumnName="EditedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="EditedOn" ColumnName="EditedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="ProductQty" ColumnName="ProductQty" />
+                <ScalarProperty Name="ProductDiscCost" ColumnName="ProductDiscCost" />
+                <ScalarProperty Name="ProductCost" ColumnName="ProductCost" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemUsers">
+            <EntityTypeMapping TypeName="ShopBridgeModel.SystemUser">
+              <MappingFragment StoreEntitySet="SystemUser">
+                <ScalarProperty Name="ExCol2Decimal" ColumnName="ExCol2Decimal" />
+                <ScalarProperty Name="ExCol1Decimal" ColumnName="ExCol1Decimal" />
+                <ScalarProperty Name="ExCol4Bit" ColumnName="ExCol4Bit" />
+                <ScalarProperty Name="ExCol3Bit" ColumnName="ExCol3Bit" />
+                <ScalarProperty Name="ExCol2Bit" ColumnName="ExCol2Bit" />
+                <ScalarProperty Name="ExCol1Bit" ColumnName="ExCol1Bit" />
+                <ScalarProperty Name="ExCol4Int" ColumnName="ExCol4Int" />
+                <ScalarProperty Name="ExCol3Int" ColumnName="ExCol3Int" />
+                <ScalarProperty Name="ExCol2Int" ColumnName="ExCol2Int" />
+                <ScalarProperty Name="ExCol1Int" ColumnName="ExCol1Int" />
+                <ScalarProperty Name="ExCol4Varchar" ColumnName="ExCol4Varchar" />
+                <ScalarProperty Name="ExCol3Varchar" ColumnName="ExCol3Varchar" />
+                <ScalarProperty Name="ExCol2Varchar" ColumnName="ExCol2Varchar" />
+                <ScalarProperty Name="ExCol1Varchar" ColumnName="ExCol1Varchar" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="EditedBy" ColumnName="EditedBy" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DeletedOn" ColumnName="DeletedOn" />
+                <ScalarProperty Name="EditedOn" ColumnName="EditedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
