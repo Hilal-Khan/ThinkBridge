@@ -20,7 +20,7 @@ namespace ShopBridge.Areas.Admin.Controllers
         {
             try
             {
-                CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
+                CustomPrincipal cp =  (System.Web.HttpContext.Current.User as CustomPrincipal);
                 int compId = cp.CompanyID;
                 return View(CatRepo.getCategory(compId));
             }
