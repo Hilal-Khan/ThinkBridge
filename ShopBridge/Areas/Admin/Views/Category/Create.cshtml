@@ -1,0 +1,87 @@
+﻿@using ShopBridge.Models
+@model ShopBridge.Models.ConstantEnums
+@{
+    ViewBag.Title = "Create New Category";
+    ViewBag.PageTitle = "Create";
+    ViewBag.PageDescription = "This will create Category";
+    ViewBag.ControllerName = "Category";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        @*@Html.RenderMessages()*@
+        <div class="content-body container">
+            <section id="form-action-layouts">
+                <div class="row match-height">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title" id="from-actions-bottom-right">Product Category</h4>
+                            <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body collapse in">
+                            <div class="card-block">
+                                <form class="form-horizontal cascde-forms form-validate" method="post" action="@Url.Action("Create")" enctype="multipart/form-data">
+                                    <div class="form-body">
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">Category Name</label>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control form-cascade-control input-small txtCategoryName required" placeholder="Enter Category Name here" name="CategoryName" id="name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">Description</label>
+                                            <div class="col-md-10">
+                                                <textarea class="ckeditor form-control form-cascade-control input-small"
+                                                          name="CategoryDescription"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="form-actions ">
+                                            <div class="buttons-group float-xs-left" align="center">
+                                                <input type="submit" id="btnCreate" value="Save" class="btn btn-success mr-1" />
+                                                <a href="@Url.Action("Index")" class="btn btn-primary mr-1">Back to List</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix padd"></div>
+
+@Html.Partial("CustomScriptCategory")
+
+<script type="text/javascript">
+    function Create_clickHandler(event) {
+        $("#flag").val(true);
+    }
+
+    $(".img-uploader").on('change', function () {
+        console.log('change');
+        var input = $(this);
+        if (input[0].files && input[0].files[0]) {
+            var filerdr = new FileReader();
+            filerdr.onload = function (e) {
+                $(input).siblings('.img_100').attr('src', e.target.result);
+            }
+            filerdr.readAsDataURL(input[0].files[0]);
+        }
+    })
+
+</script>

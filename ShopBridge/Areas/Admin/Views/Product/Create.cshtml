@@ -1,0 +1,175 @@
+﻿@using ShopBridge.Models
+@model ShopBridge.Models.ConstantEnums
+@{
+    ViewBag.Title = "Create New Product";
+    ViewBag.PageTitle = "Create";
+    ViewBag.PageDescription = "This will create Product";
+    ViewBag.ControllerName = "Product";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+    List<Category> lstCategory = ViewBag.CategoryList != null ? ViewBag.CategoryList : new List<Category>();
+}
+
+<div class="app-content container center-layout mt-2">
+    <div class="content-wrapper">
+        @*@Html.RenderMessages()*@
+        <div class="content-body container">
+            <section id="form-action-layouts">
+                <div class="row match-height">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title" id="from-actions-bottom-right">Product</h4>
+                            <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="icon-minus4"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body collapse in">
+                            <div class="card-block">
+                                <form class="form-horizontal cascde-forms form-validate" method="post" action="@Url.Action("Create")" enctype="multipart/form-data">
+                                    <div class="form-body">
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">
+                                                <b>
+                                                    Name : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control form-cascade-control input-small required" 
+                                                       placeholder="Enter Product Name here" name="ProductName" id="ProductName">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">
+                                                <b>
+                                                    Code : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control form-cascade-control input-small required"
+                                                       placeholder="Enter Product Code here" name="ProductCode" id="ProductCode">
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">
+                                                <b>
+                                                    Category : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-3">
+                                                <select name="CategoryID" class="form-control chosen-select">
+                                                    <option value="0">Select Category</option>
+                                                    @if (ViewBag.CategoryList != null)
+                                                    {
+                                                        foreach (var item in ViewBag.CategoryList)
+                                                        {
+                                                            <option value="@item.CategoryID">@item.CategoryName</option>
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">
+                                                <b>
+                                                    Price : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-3">
+                                                <input type="number" class="form-control form-cascade-control input-small required"
+                                                       placeholder="Enter Price here" name="ProductCost" id="ProductCost">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">
+                                                <b>
+                                                    Price With Discount : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-3">
+                                                <input type="number" class="form-control form-cascade-control input-small required"
+                                                       placeholder="Enter Price With Discount here" name="ProductDiscCost" id="ProductDiscCost">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">
+                                                <b>
+                                                    Available Quantity : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-3">
+                                                <input type="number" class="form-control form-cascade-control input-small required"
+                                                       placeholder="Enter Available Quantity here" name="ProductQty" id="ProductQty">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label lblCategoryDescription">
+                                                <b>
+                                                    Product Description : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-10">
+                                                <textarea class="ckeditor form-control form-cascade-control input-small"
+                                                           name="ProductDescription" id="ProductDescription"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">
+                                                <b>
+                                                    Image : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-4">
+                                                <img src="@Url.Content("~/Content/images/errorimage.jpg")" 
+                                                     style="margin-bottom: 5px !important; height : 100px; width : 100px;" class="img_100" 
+                                                     onerror="this.src = '@Url.Content("~/Content/images/errorimage.jpg")'" />
+                                                <br />
+                                                <input type="file" id="uploadedimage" class="img-uploader" name="Imagename">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 form-group">
+                                            <label class="col-md-2 control-label">
+                                                <b>
+                                                    Sequence No. : 
+                                                </b>
+                                            </label>
+                                            <div class="col-md-3">
+                                                <input type="number" class="form-control form-cascade-control input-small required"
+                                                       placeholder="Enter Sequence No here" name="SequenceNo" id="SequenceNo">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="form-actions ">
+                                            <div class="buttons-group float-xs-left" align="center">
+                                                <input type="submit" id="btnCreate" value="Save" class="btn btn-success mr-1" />
+                                                <a href="@Url.Action("Index")" class="btn btn-primary mr-1">Back to List</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="clearfix padd"></div>
+
+@Html.Partial("CustomScriptProduct")

@@ -1,0 +1,245 @@
+﻿@using ShopBridge.HelperUtility;
+@using ShopBridge.ApplicationCode.Common_Implementation
+@using System.Configuration
+@using ShopBridge.Models
+<!DOCTYPE html>
+<html lang="en" data-textdirection="ltr" class="loading">
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @Html.Partial("AllCss")
+    @{
+        var username = "";
+        var compName = "";
+        var complogo = "";
+        CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
+        if (cp.CurrentUserName != null)
+        {
+            username = cp.CurrentUserName;
+        }
+        if (cp.CompanyName != null)
+        {
+            compName = cp.CompanyName;
+        }
+        if (cp.CompanyLogo != null)
+        {
+            complogo = cp.CompanyLogo;
+        }
+    }
+
+    <style>
+        .header-navbar1 {
+            height: 5rem !important;
+        }
+
+        @@media only screen and (max-width: 800px) {
+            #hideIcon {
+                display: block;
+            }
+        }
+
+        .header-navbar .navbar-header .navbar-brand {
+            padding: 20px 0px;
+        }
+
+        .px-1 {
+            padding-right: 0rem !important;
+            padding-left: 0rem !important;
+        }
+
+        .card-block {
+            padding: 1rem !important;
+        }
+
+        .spinner {
+            margin: 8px auto;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            font-size: 10px;
+        }
+
+            .spinner > div {
+                background-color: #3598dc;
+                height: 100%;
+                width: 6px;
+                display: inline-block;
+                -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+                animation: sk-stretchdelay 1.2s infinite ease-in-out;
+            }
+
+            .spinner .rect2 {
+                -webkit-animation-delay: -1.1s;
+                animation-delay: -1.1s;
+            }
+
+            .spinner .rect3 {
+                -webkit-animation-delay: -1.0s;
+                animation-delay: -1.0s;
+            }
+
+            .spinner .rect4 {
+                -webkit-animation-delay: -0.9s;
+                animation-delay: -0.9s;
+            }
+
+            .spinner .rect5 {
+                -webkit-animation-delay: -0.8s;
+                animation-delay: -0.8s;
+            }
+
+        @@-webkit-keyframes sk-stretchdelay {
+            0%, 40%, 100% {
+                -webkit-transform: scaleY(0.4);
+            }
+
+            20% {
+                -webkit-transform: scaleY(1.0);
+            }
+        }
+
+        @@keyframes sk-stretchdelay {
+            0%, 40%, 100% {
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+            }
+
+            20% {
+                transform: scaleY(1.0);
+                -webkit-transform: scaleY(1.0);
+            }
+        }
+
+        #ajaxLoading {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 10000000;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+            #ajaxLoading .div_first {
+                width: 250px;
+                height: 75px;
+                text-align: center;
+                position: fixed;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+                margin: auto;
+                font-size: 16px;
+                z-index: 10;
+                color: rgb(255, 255, 255);
+            }
+
+            #ajaxLoading .bg {
+                height: 100%;
+                background: rgb(0, 0, 0);
+                opacity: 0.7;
+                width: 100%;
+                position: absolute;
+                top: 0px;
+            }
+    </style>
+
+    <script src="~/Content/NewUIForAdmin/app-assets/js/scripts/pages/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+</head>
+<body data-open="hover" data-menu="horizontal-menu" data-col="2-columns" class="horizontal-layout horizontal-menu 2-columns ">
+    <nav class="header-navbar header-navbar1 navbar navbar-with-menu navbar-static-top navbar-light navbar-border navbar-brand-center">
+        <div class="navbar-wrapper">
+            <div class="navbar-header" style="left: 10%;">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item mobile-menu hidden-md-up float-xs-left"><a class="nav-link nav-menu-main menu-toggle hidden-xs"><i class="icon-menu5 font-large-1"></i></a></li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index","Dashboard")" class="navbar-brand nav-link">
+                            Shop Bridge
+                        </a>
+                    </li>
+                    <li class="nav-item hidden-md-up float-xs-right"><a data-toggle="collapse" data-target="#navbar-mobile" class="nav-link open-navbar-container"><i class="icon-ellipsis pe-2x icon-icon-rotate-right-right"></i></a></li>
+                </ul>
+            </div>
+            <div class="navbar-container container center-layout">
+                <div id="navbar-mobile" class="collapse navbar-toggleable-sm">
+                    <ul class="nav navbar-nav">
+                        <li class="nav-item hidden-sm-down" id="hideIcon" style="margin-top : 15px; display : none;">
+                            <a class="nav-link nav-menu-main menu-toggle hidden-xs"><i class="icon-menu5"></i></a>
+                        </li>
+
+                    </ul>
+                    <ul class="nav navbar-nav float-xs-right">
+
+                        <li class="dropdown dropdown-user nav-item" style="margin : 15px;">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle nav-link dropdown-user-link">
+                                <span class="avatar avatar-online">
+                                    <img src="http://roxylibrary.com/MyTheme/app-assets/images/portrait/small/avatar-s-1.png" alt="avatar">
+                                    <i></i>
+                                </span>
+                                <span class="user-name">@username</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="@Url.Action("Logoff","Login")" class="dropdown-item">
+                                    <i class="icon-power3"></i> Logout
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div role="navigation" data-menu="menu-wrapper" class="header-navbar navbar navbar-horizontal navbar-fixed navbar-light navbar-without-dd-arrow navbar-bordered navbar-shadow">
+        <div data-menu="menu-container" class="navbar-container main-menu-content container center-layout">
+
+            <ul id="main-menu-navigation" data-menu="menu-navigation" class="nav navbar-nav">
+                <li data-menu="dropdown" class="nav-item">
+                    <a href="@Url.Action("Index","Dashboard")" class="dropdown-toggle nav-link"><i class="icon-home3"></i><span data-i18n="nav.dash.main">Home</span></a>
+                </li>
+                <li data-menu="dropdown" class="dropdown nav-item">
+                    <a data-toggle="dropdown" class="dropdown-toggle nav-link"><i class="icon-android-funnel"></i><span data-i18n="nav.dash.main">Masters</span></a>
+                    <ul class="dropdown-menu">
+
+                        <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu">
+                            <a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle">Category</a>
+                            <ul class="dropdown-menu">
+                                <li data-menu="">
+                                    <a href="@Url.Action("Index","Category")" class="dropdown-item"><i class="icon-document-text"></i>Index</a>
+                                <li data-menu="">
+                                    <a href="@Url.Action("Create","Category")" class="dropdown-item"><i class="icon-android-create"></i>Create</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li data-menu="dropdown-submenu" class="dropdown dropdown-submenu">
+                            <a href="#" data-toggle="dropdown" class="dropdown-item dropdown-toggle">Product</a>
+                            <ul class="dropdown-menu">
+                                <li data-menu="">
+                                    <a href="@Url.Action("Index","Product")" class="dropdown-item"><i class="icon-document-text"></i>Index</a>
+                                <li data-menu="">
+                                    <a href="@Url.Action("Create","Product")" class="dropdown-item"><i class="icon-android-create"></i>Create</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+
+    @RenderBody()
+
+    @Html.Partial("AllJs")
+</body>
+</html>

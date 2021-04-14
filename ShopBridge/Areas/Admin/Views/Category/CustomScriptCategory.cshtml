@@ -1,0 +1,91 @@
+﻿<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.AddImages').on("click", function () {
+            var cnt = $('.SingleImage').length;
+
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("ImageUpload", "Partial")',
+                dataType: 'html',
+                data: { ExCounter: cnt++ },
+                success: function (oresponse) {
+                    $(".Images").append(oresponse);
+                    $('.chosen-select').chosen();
+                    $('.Images .SingleImage:Last #target').focus();
+                }
+            });
+
+        });
+
+
+        $('.Images').on('click', '.removeimages', function () {
+            console.log("here", $(this));
+            $(this).closest('.SingleImage').remove();
+            replaceName();
+            $('.Images .SingleImage:Last #target').focus();
+        });
+
+
+        // diplaying image preview on selection of image
+        $(".Images").on('change', '.img-uploader', function () {
+            console.log('change');
+            var input = $(this);
+            if (input[0].files && input[0].files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $(input).siblings('.img_100').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input[0].files[0]);
+            }
+        })
+
+        // diplaying image preview on selection of image
+        $("#coverimage").change(function () {
+            var input = $(this);
+            if (input[0].files && input[0].files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $("#preview_img").attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input[0].files[0]);
+            }
+        });
+
+        var replaceName = function () {
+            var oCount = 0;
+            $('.SingleImage').each(function () {
+                $(this).find('.replacename').each(function () {
+                    console.log(this);
+                    var nameattr = $(this).attr('name');
+                    var separators = ['\\[', '\\]'];
+                    var tokens = nameattr.split(new RegExp(separators.join('|'), 'g'));
+                    var newName = tokens[0] + '[' + oCount + ']' + tokens[2];
+                    $(this).attr('name', newName);
+                });
+                oCount++;
+            });
+        }
+        $('.chosen-select').trigger("chosen:updated");
+    });
+
+    $('.CategoryType').on('change', function () {
+        if (this.value == "ForIRP") {
+            $(".lblCategoryName").text('IRP Professional Name');
+            $(".txtCategoryName").attr('placeholder', 'Enter IRP Professional Name here')
+            $(".lblCategoryDescription").text('IRP Description Name');
+            
+            $(".IRPRegNo").removeClass('hidden');
+        }
+        else {
+            if (!$(".IRPRegNo").hasClass('hidden'))
+            {
+                $(".IRPRegNo").addClass('hidden');
+                $(".lblCategoryName").text('Category Name');
+                $(".txtCategoryName").attr('placeholder', 'Enter Category Name here')
+                $(".lblCategoryDescription").text('Category Description');
+            }
+        }
+    });
+
+</script>
