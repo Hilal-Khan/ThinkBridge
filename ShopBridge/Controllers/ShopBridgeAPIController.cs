@@ -34,6 +34,7 @@ namespace ShopBridge.Controllers
 
         public async Task<List<CategoryViewModel>> GetAllCategories(int companyId)
         {
+
             var list = await db.Categories.Where(w => w.CompanyID == companyId && w.IsActive == true).ToListAsync();
             List<CategoryViewModel> lstCategoryViewModel = new List<CategoryViewModel>();
             if (list != null && list.Count() > 0)
@@ -141,7 +142,7 @@ namespace ShopBridge.Controllers
             if (ID > 0)
             {
                 List<Product> lstProduct = await db.Products.Where(w => w.CompanyID == companyId && w.ProductId == ID && w.IsActive == true).ToListAsync();
-                
+
                 if (lstProduct != null && lstProduct.Count() > 0)
                 {
                     Product oProduct = lstProduct.FirstOrDefault();
