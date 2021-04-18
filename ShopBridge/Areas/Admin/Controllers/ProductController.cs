@@ -9,6 +9,8 @@ using ShopBridge.HelperUtility;
 using System.Configuration;
 using ShopBridge.ApplicationCode.Common_Implementation;
 using ShopBridge.Areas.Admin.Models;
+using ShopBridge.ApplicationCode.VegShopAdmin.Controller_Abstraction;
+using VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation;
 
 namespace ShopBridge.Areas.Admin.Controllers
 {
@@ -17,118 +19,63 @@ namespace ShopBridge.Areas.Admin.Controllers
         ProductRepository ProductRepo = new ProductRepository();
         CategoryRepository CatRepo = new CategoryRepository();
 
+        private IProductContImpl oProductContImpl = new ProductContImpl();
+
         public ActionResult Index()
         {
-            try
-            {
-                CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                int userID = cp.CurrentUserId;
-                return View(ProductRepo.getProduct(compId));
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in retriving details of Product " + ex.Message);
-                return View();
-            }
+            return oProductContImpl.Index();
         }
 
         public ActionResult Create()
         {
-            CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-            int compId = cp.CompanyID;
-            int userID = cp.CurrentUserId;
-            ViewBag.SequenceNo = ProductRepo.getProduct(compId).Select(o => o.SequenceNo).Max() + 1;
-            ViewBag.CategoryList = CatRepo.getCategory(compId);
-            return View();
+            return oProductContImpl.Create();
+
         }
 
         [HttpPost, ValidateInput(false)]
         public ActionResult Create(Product oNewProduct, HttpPostedFileBase Imagename, FormCollection oNewForm)
         {
+            return oProductContImpl.CreatePost(oNewProduct, Imagename, oNewForm);
+        }
+
+        public ActionResult Edit(int id)
+        {
+
             try
             {
                 CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                int userID = cp.CurrentUserId;
-                if (Imagename != null && Imagename.ContentLength > 0)
+                if (cp != null)
                 {
-                    oNewProduct.Image = new FileUploader().uploadFile(Imagename, oNewProduct.ProductName, ConstantEnums.FileUploaderPath.Product);
-                }
-                oNewProduct.CreatedOn = DateTime.Now;
-                oNewProduct.IsActive = true;
-                oNewProduct.IsDeleted = false;
-                oNewProduct.CompanyID = compId;
-                oNewProduct.CreatedBy = userID;
-                ProductRepo.addProduct(oNewProduct);
-                this.ShowMessage(ConstantEnums.MessageType.Success, "Product Details Saved Successfully!");
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in creating Product " + ex.Message);
-                return View();
-            }
-        }
-
-        public ActionResult Edit(int? id)
-        {
-            try
-            {
-                if (id.HasValue)
-                {
-                    CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
                     int compId = cp.CompanyID;
-                    List<Product> lstProduct = ProductRepo.getProduct(id.Value, compId);
-                    if (lstProduct != null && lstProduct.Count > 0)
+                    int userID = cp.CurrentUserId;
+                    Product oProduct = ProductRepo.getProduct(id, compId).FirstOrDefault();
+                    if (oProduct != null)
                     {
-                        ViewBag.CategoryList = CatRepo.getCategory(compId);
-                        return View(lstProduct[0]);
+                        return oProductContImpl.Edit(oProduct);
                     }
                     else
                     {
-                        return HandleException.PageNotFound();
+                        this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
+                        return View("Index");
                     }
                 }
                 else
                 {
-                    return HandleException.PageNotFound();
+                    return RedirectToAction("Index", "Login");
                 }
+                
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in retriving details of Product " + ex.Message);
-                return View();
+                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
+                return View("Index");
             }
         }
 
         [HttpPost, ValidateInput(false)]
         public ActionResult Edit(Product oNewProduct, HttpPostedFileBase Imagename, FormCollection oNewForm)
         {
-            try
-            {
-                CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                int userID = cp.CurrentUserId;
-
-                if (Imagename != null && Imagename.ContentLength > 0)
-                {
-                    string new_img_name = new FileUploader().uploadFile(Imagename, oNewProduct.ProductName, ConstantEnums.FileUploaderPath.Product);
-                    new FileUploader().deleteFile(oNewProduct.Image, ConstantEnums.FileUploaderPath.Product);
-                    oNewProduct.Image = new_img_name;
-                }
-
-                oNewProduct.EditedBy = userID;
-                oNewProduct.EditedOn = DateTime.Now;
-                ProductRepo.updateProduct(oNewProduct);
-                this.ShowMessage(ConstantEnums.MessageType.Success, "Updated Successfully");
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in editing Product details " + ex.Message);
-                return View();
-            }
+            return oProductContImpl.EditPost(oNewProduct, Imagename, oNewForm);
         }
 
         public ActionResult Delete(int id)
@@ -136,28 +83,30 @@ namespace ShopBridge.Areas.Admin.Controllers
             try
             {
                 CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                int userID = cp.CurrentUserId;
-                Product oProduct = ProductRepo.getProduct(id, compId).FirstOrDefault();
-                if (oProduct != null)
+                if (cp != null)
                 {
-                    oProduct.IsActive = false;
-                    oProduct.IsDeleted = true;
-                    oProduct.DeletedOn = DateTime.Now;
-                    oProduct.DeletedBy = userID;
-                    ProductRepo.updateProduct(oProduct);
-                    this.ShowMessage(ConstantEnums.MessageType.Success, "Product Deleted Successfully");
+                    int compId = cp.CompanyID;
+                    int userID = cp.CurrentUserId;
+                    Product oProduct = ProductRepo.getProduct(id, compId).FirstOrDefault();
+                    if (oProduct != null)
+                    {
+                        return oProductContImpl.Delete(oProduct);
+                    }
+                    else
+                    {
+                        this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
+                        return View("Index");
+                    }
                 }
                 else
                 {
-                    return HandleException.PageNotFound();
+                    return RedirectToAction("Index", "Login");
                 }
-                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in deleting Product " + ex.Message);
-                return View();
+                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
+                return View("Index");
             }
         }
     }

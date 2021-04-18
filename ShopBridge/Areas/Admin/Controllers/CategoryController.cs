@@ -1,147 +1,103 @@
 ﻿using ShopBridge.DAL;
 using ShopBridge.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using ShopBridge.HelperUtility;
-using System.Configuration;
 using ShopBridge.ApplicationCode.Common_Implementation;
-using ShopBridge.Areas.Admin.Models;
+using ShopBridge.ApplicationCode.VegShopAdmin.Controller_Abstraction;
+using ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation;
 
 namespace ShopBridge.Areas.Admin.Controllers
 {
     public class CategoryController : Controller
     {
-        CategoryRepository CatRepo = new CategoryRepository();
-        
+        CategoryRepository CategoryRepo = new CategoryRepository();
+        private ICategoryContImpl oCategoryContImpl = new CategoryContImpl();
+
         public ActionResult Index()
         {
-            try
-            {
-                CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                return View(CatRepo.getCategory(compId));
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in retriving details of Category " + ex.Message);
-                return View();
-            }
+            return oCategoryContImpl.Index();
         }
 
         public ActionResult Create()
         {
-            CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-            int compId = cp.CompanyID;
-            return View();
+            return oCategoryContImpl.Create();
         }
 
         [HttpPost, ValidateInput(false)]
-        public ActionResult Create(Category oNewCategory, FormCollection oNewForm)
+        public ActionResult Create(Category Category, FormCollection pFormCollection)
         {
-            try
-            {
-                CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                int userID = cp.CurrentUserId;
-                oNewCategory.CreatedOn = DateTime.Now;
-                oNewCategory.IsActive = true;
-                oNewCategory.IsDeleted = false;
-                oNewCategory.CompanyID = compId;
-                oNewCategory.CreatedBy = userID;
-                CatRepo.addCategory(oNewCategory);
-                this.ShowMessage(ConstantEnums.MessageType.Success, "Category Details Saved Successfully!");
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in creating Category " + ex.Message);
-                return View();
-            }
+            return oCategoryContImpl.CreatePost(Category, pFormCollection);
         }
 
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
             try
             {
                 CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                int userID = cp.CurrentUserId;
-                if (id.HasValue)
+                if (cp != null)
                 {
-                    List<Category> lstCategory = CatRepo.getCategory(id.Value, compId);
-                    if (lstCategory != null && lstCategory.Count > 0)
+                    int compId = cp.CompanyID;
+                    int userID = cp.CurrentUserId;
+                    Category oCategory = CategoryRepo.getCategory(id, compId).FirstOrDefault();
+                    if (oCategory != null)
                     {
-                        return View(lstCategory[0]);
+                        return oCategoryContImpl.Edit(oCategory);
                     }
                     else
                     {
-                        return HandleException.PageNotFound();
+                        this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
+                        return View("Index");
                     }
                 }
                 else
                 {
-                    return HandleException.PageNotFound();
+                    return RedirectToAction("Index", "Login");
                 }
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in retriving details of Category " + ex.Message);
-                return View();
+                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
+                return View("Index");
             }
         }
-        
-        [HttpPost, ValidateInput(false)]
-        public ActionResult Edit(Category oNewCategory)
-        {
-            try
-            {
-                CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                int userID = cp.CurrentUserId;
-                oNewCategory.EditedOn = DateTime.Now;
-                oNewCategory.EditedBy = userID;
-                CatRepo.updateCategory(oNewCategory);   
-                this.ShowMessage(ConstantEnums.MessageType.Success, "Updated Successfully");
-                return RedirectToAction("Index");
 
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in editing Category details " + ex.Message);
-                return View();
-            }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult Edit(Category Category, FormCollection pFormCollection)
+        {
+            return oCategoryContImpl.EditPost(Category, pFormCollection);
         }
-        
+
         public ActionResult Delete(int id)
         {
             try
             {
                 CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                int compId = cp.CompanyID;
-                int userID = cp.CurrentUserId;
-                Category oCategory = CatRepo.getCategory(id, compId).FirstOrDefault();
-                if (oCategory != null)
+                if (cp != null)
                 {
-                    oCategory.IsActive = false;
-                    oCategory.IsDeleted = true;
-                    oCategory.DeletedOn = DateTime.Now;
-                    oCategory.DeletedBy = userID;
-                    CatRepo.updateCategory(oCategory);
-                    this.ShowMessage(ConstantEnums.MessageType.Success, "Category Deleted Successfully");
+                    int compId = cp.CompanyID;
+                    int userID = cp.CurrentUserId;
+                    Category oCategory = CategoryRepo.getCategory(id, compId).FirstOrDefault();
+                    if (oCategory != null)
+                    {
+                        return oCategoryContImpl.Delete(oCategory);
+                    }
+                    else
+                    {
+                        this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
+                        return View("Index");
+                    }
                 }
                 else
                 {
-                    return HandleException.PageNotFound();
-                }
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Login");
+                } 
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Error in deleting Category" + ex.Message);
-                return View();
+                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
+                return View("Index");
             }
         }
     }

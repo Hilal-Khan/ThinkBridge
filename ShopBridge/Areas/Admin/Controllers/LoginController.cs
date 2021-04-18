@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Configuration;
-using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Web.Script.Serialization;
-using System.Web.Security;
+﻿using System.Web.Mvc;
 using ShopBridge.ApplicationCode.Common_Implementation;
-using ShopBridge.ApplicationCode.Common_Abstraction;
 using ShopBridge.DAL;
 using ShopBridge.Models;
-using ShopBridge.HelperUtility;
+using ShopBridge.ApplicationCode.VegShopAdmin.Controller_Abstraction;
+using ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation;
+using System.Web.Script.Serialization;
+using System.Linq;
+using System.Web.Security;
+using System.Web;
+using System;
 using ShopBridge.Areas.Admin.Models;
-using static ShopBridge.Models.ConstantEnums;
 
 namespace ShopBridge.Areas.Admin.Controllers
 {
     public class LoginController : Controller
     {
-
+        
         SystemUserRepository SystemUserRepo = new SystemUserRepository();
 
         public ActionResult Index()
@@ -41,7 +35,7 @@ namespace ShopBridge.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(SystemUser oSystemUser, FormCollection pFormCollection)
+        public ActionResult Index(SystemUser oSystemUser, FormCollection oNewForm)
         {
             try
             {
@@ -62,6 +56,7 @@ namespace ShopBridge.Areas.Admin.Controllers
                     string userData = serializer.Serialize(serializeModel);
                     FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket
                    (1, oUser.UserId.ToString(), DateTime.Now, DateTime.Now.AddHours(8), false, userData);
+
                     string encTicket = FormsAuthentication.Encrypt(authTicket);
                     HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                     faCookie.Expires = DateTime.Now.AddHours(8);
