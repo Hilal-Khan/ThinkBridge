@@ -19,5 +19,10 @@ namespace ShopBridge.Models
             Error
         };
 
+        //public enum DetailsNotFound
+        //{
+        //    "Sorry we are unable to retrieve Category details, Please contact Service provider for the same." = 1
+        //}
+
     }
 }
