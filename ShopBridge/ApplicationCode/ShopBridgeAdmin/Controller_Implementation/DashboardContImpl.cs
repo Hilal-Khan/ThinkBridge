@@ -4,6 +4,8 @@ using ShopBridge.ApplicationCode.VegShopAdmin.Controller_Abstraction;
 using System;
 using ShopBridge.HelperUtility;
 using ShopBridge.Models;
+using ShopBridge.Areas.Admin.Controllers;
+using ShopBridge.Areas.Admin.Models;
 
 namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
 {
@@ -14,7 +16,6 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
             try
             {
                 CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-
                 if (cp != null)
                 {
                     int companyid = cp.CompanyID;
@@ -25,12 +26,10 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
                 {
                     return RedirectToAction("Index", "Login");
                 }
-                
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Oops, Something went wrong, Please contact Service provider for the same.");
-                return View();
+                return HandleException.CustomException("Index", "Dashboard");
             }
         }
 

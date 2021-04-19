@@ -16,6 +16,5 @@ namespace ShopBridge.ApplicationCode.Common_Abstraction
         int CompanyID { get; set; }
         string CompanyName { get; set; }
         string CompanyLogo { get; set; }
-
     }
 }

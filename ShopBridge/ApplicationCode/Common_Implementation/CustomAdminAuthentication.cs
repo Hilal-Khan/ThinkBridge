@@ -18,7 +18,6 @@ namespace ShopBridge.ApplicationCode.Common_Implementation
 
             if (authCookie == null)
             {
-
                 RouteValueDictionary redirectTargetDictionary = new RouteValueDictionary();
                 redirectTargetDictionary.Add("area", "Admin");
                 redirectTargetDictionary.Add("action", "Index");

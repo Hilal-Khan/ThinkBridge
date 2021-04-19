@@ -25,12 +25,7 @@ namespace ShopBridge.DAL
             oListProduct = db.Products.Where(o => o.CompanyID == companyId && o.IsActive == true).ToList();
             return oListProduct;
         }
-
-        /// <summary>
-        /// This will return single Product details
-        /// </summary>
-        /// <param name="ID">Product ID parameter</param>
-        /// <returns></returns>
+        
         public List<Product> getProduct(int ID, int companyId)
         {
             List<Product> oListProduct = new List<Product>();

@@ -32,12 +32,7 @@ namespace ShopBridge.DAL
             oListSystemUserDetail = db.SystemUsers.Where(o => o.CompanyID == companyId && lstID.Any(p => p == o.UserId)).ToList();
             return oListSystemUserDetail;
         }
-
-        /// <summary>
-        /// This will return single SystemUser details
-        /// </summary>
-        /// <param name="ID">SystemUser ID parameter</param>
-        /// <returns></returns>
+        
         public List<SystemUser> getSystemUser(int ID, int companyId)
         {
            

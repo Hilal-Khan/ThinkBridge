@@ -180,13 +180,21 @@
   <ItemGroup>
     <Compile Include="ApplicationCode\Common_Abstraction\IAuthorization.cs" />
     <Compile Include="ApplicationCode\Common_Abstraction\ICustomPrincipal.cs" />
-    <Compile Include="ApplicationCode\Common_Implementation\BaseController.cs" />
     <Compile Include="ApplicationCode\Common_Implementation\CustomAdminAuthentication.cs" />
     <Compile Include="ApplicationCode\Common_Implementation\CustomPrincipal.cs" />
     <Compile Include="ApplicationCode\Common_Implementation\UserAuthorization.cs" />
+    <Compile Include="ApplicationCode\ShopBridgeAdmin\Controller_Abstraction\ICategoryContImpl.cs" />
+    <Compile Include="ApplicationCode\ShopBridgeAdmin\Controller_Abstraction\IDashboardContImpl.cs" />
+    <Compile Include="ApplicationCode\ShopBridgeAdmin\Controller_Abstraction\ILoginContImpl.cs" />
+    <Compile Include="ApplicationCode\ShopBridgeAdmin\Controller_Abstraction\IProductContImpl.cs" />
+    <Compile Include="ApplicationCode\ShopBridgeAdmin\Controller_Implementation\CategoryContImpl.cs" />
+    <Compile Include="ApplicationCode\ShopBridgeAdmin\Controller_Implementation\DashboardContImpl.cs" />
+    <Compile Include="ApplicationCode\ShopBridgeAdmin\Controller_Implementation\LoginContImpl.cs" />
+    <Compile Include="ApplicationCode\ShopBridgeAdmin\Controller_Implementation\ProductContImpl.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\DashBoardController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
@@ -7056,6 +7064,7 @@
     <Content Include="Content\js\bower.json" />
     <Content Include="Content\js\webcam.jquery.json" />
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\ErrorMessage.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

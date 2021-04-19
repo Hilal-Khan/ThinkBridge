@@ -8,6 +8,7 @@ using ShopBridge.HelperUtility;
 using ShopBridge.ApplicationCode.Common_Implementation;
 using ShopBridge.Areas.Admin.Models;
 using ShopBridge.ApplicationCode.VegShopAdmin.Controller_Abstraction;
+using ShopBridge.Areas.Admin.Controllers;
 
 namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
 {
@@ -32,8 +33,7 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Oops, Something went wrong, Please contact Service provider for the same.");
-                return View();
+                return HandleException.CustomException("Index", "Category");
             }
         }
 
@@ -54,8 +54,7 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("Create", "Category");
             }   
         }
 
@@ -85,12 +84,11 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("CreatePost", "Category");
             }
         }
 
-        protected virtual ActionResult Edit(Category Category)
+        protected virtual ActionResult Edit(int id)
         {
             try
             {
@@ -99,33 +97,24 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
                 {
                     int compId = cp.CompanyID;
                     int userID = cp.CurrentUserId;
-                    if (Category != null)
+                    Category oCategory = CatRepo.getCategory(id, compId).FirstOrDefault();
+                    if (oCategory != null)
                     {
-                        List<Category> lstCategory = CatRepo.getCategory(Category.CategoryID, compId);
-                        if (lstCategory != null && lstCategory.Count > 0)
-                        {
-                            return View(lstCategory[0]);
-                        }
-                        else
-                        {
-                            return HandleException.PageNotFound();
-                        }
+                        return View(oCategory);
                     }
                     else
                     {
-                        return HandleException.PageNotFound();
+                        return HandleException.CustomException("Edit", "Category");
                     }
                 }
                 else
                 {
                     return RedirectToAction("Index", "Login");
                 }
-                
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("Edit", "Category");
             }
         }
 
@@ -153,12 +142,11 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
-                return View();
+                return HandleException.CustomException("EditPost", "Category");
             }
         }
 
-        protected virtual ActionResult Delete(Category Category)
+        protected virtual ActionResult Delete(int id)
         {
             try
             {
@@ -167,7 +155,7 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
                 {
                     int compId = cp.CompanyID;
                     int userID = cp.CurrentUserId;
-                    Category oCategory = CatRepo.getCategory(Category.CategoryID, compId).FirstOrDefault();
+                    Category oCategory = CatRepo.getCategory(id, compId).FirstOrDefault();
                     if (oCategory != null)
                     {
                         oCategory.IsActive = false;
@@ -179,7 +167,7 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
                     }
                     else
                     {
-                        return HandleException.PageNotFound();
+                        return HandleException.CustomException("Delete", "Category");
                     }
                     return RedirectToAction("Index");
                 }
@@ -191,16 +179,15 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Category details, Please contact Service provider for the same.");
-                return View();
+                return HandleException.CustomException("Delete", "Category");
             }
         }
         
         ActionResult ICategoryContImpl.Index() { return Index(); }
         ActionResult ICategoryContImpl.Create() { return Create(); }
         ActionResult ICategoryContImpl.CreatePost(Category Category, FormCollection oNewForm) { return CreatePost(Category, oNewForm); }
-        ActionResult ICategoryContImpl.Edit(Category Category) { return Edit(Category); }
+        ActionResult ICategoryContImpl.Edit(int id) { return Edit(id); }
         ActionResult ICategoryContImpl.EditPost(Category Category, FormCollection oNewForm) { return EditPost(Category, oNewForm); }
-        ActionResult ICategoryContImpl.Delete(Category Category) { return Delete(Category); }
+        ActionResult ICategoryContImpl.Delete(int id) { return Delete(id); }
     }
 }

@@ -10,6 +10,7 @@ using ShopBridge.HelperUtility;
 using ShopBridge.Models;
 using ShopBridge.Areas.Admin.Models;
 using ShopBridge.DAL;
+using ShopBridge.Areas.Admin.Controllers;
 
 namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
 {
@@ -37,8 +38,7 @@ namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("Index", "Product");
             }
         }
 
@@ -62,8 +62,7 @@ namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("Create", "Product");
             }
         }
 
@@ -97,23 +96,30 @@ namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("CreatePost", "Product");
             }
         }
 
-        protected virtual ActionResult Edit(Product oProduct)
+        protected virtual ActionResult Edit(int id)
         {
             try
             {
-                if (oProduct != null)
+                if (id > 0)
                 {
                     CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
                     if (cp != null)
                     {
                         int compId = cp.CompanyID;
                         ViewBag.CategoryList = CatRepo.getCategory(compId);
-                        return View(oProduct);
+                        Product oProduct = ProductRepo.getProduct(id, compId).FirstOrDefault();
+                        if (oProduct != null)
+                        {
+                            return View(oProduct);
+                        }
+                        else
+                        {
+                            return HandleException.CustomException("Edit", "Product");
+                        }
                     }
                     else
                     {
@@ -122,14 +128,12 @@ namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
                 }
                 else
                 {
-                    this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                    return View("Index");
+                    return HandleException.CustomException("Edit", "Product");
                 }
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("Edit", "Product");
             }
         }
 
@@ -162,12 +166,11 @@ namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("EditPost", "Product");
             }
         }
 
-        protected virtual ActionResult Delete(Product oProduct)
+        protected virtual ActionResult Delete(int id)
         {
             try
             {
@@ -176,6 +179,7 @@ namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
                 {
                     int compId = cp.CompanyID;
                     int userID = cp.CurrentUserId;
+                    Product oProduct = ProductRepo.getProduct(id, compId).FirstOrDefault();
                     if (oProduct != null)
                     {
                         oProduct.IsActive = false;
@@ -187,9 +191,9 @@ namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
                     }
                     else
                     {
-                        this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                        return View("Index");
+                        return HandleException.CustomException("Delete", "Product");
                     }
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -200,17 +204,16 @@ namespace VegShopUI.ApplicationCode.VegShopAdmin.Controller_Implementation
             }
             catch (Exception ex)
             {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                return View("Index");
+                return HandleException.CustomException("Delete", "Product");
             }
         }
 
         ActionResult IProductContImpl.Index() { return Index(); }
         ActionResult IProductContImpl.Create() { return Create(); }
         ActionResult IProductContImpl.CreatePost(Product oNewProduct, HttpPostedFileBase Imagename, FormCollection pFormCollection) { return CreatePost(oNewProduct, Imagename, pFormCollection); }
-        ActionResult IProductContImpl.Edit(Product Product) { return Edit(Product); }
+        ActionResult IProductContImpl.Edit(int id) { return Edit(id); }
         ActionResult IProductContImpl.EditPost(Product oNewProduct, HttpPostedFileBase Imagename, FormCollection pFormCollection) { return EditPost(oNewProduct, Imagename, pFormCollection); }
-        ActionResult IProductContImpl.Delete(Product Product) { return Delete(Product); }
+        ActionResult IProductContImpl.Delete(int id) { return Delete(id); }
         
     }
 }

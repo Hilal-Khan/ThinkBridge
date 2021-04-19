@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using System.Web;
 using ShopBridge.Models;
 
 namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Abstraction
@@ -9,8 +8,8 @@ namespace ShopBridge.ApplicationCode.VegShopAdmin.Controller_Abstraction
         ActionResult Index();
         ActionResult Create();
         ActionResult CreatePost(Category Category, FormCollection oNewForm);
-        ActionResult Edit(Category Category);
+        ActionResult Edit(int id);
         ActionResult EditPost(Category Category, FormCollection oNewForm);
-        ActionResult Delete(Category Category);
+        ActionResult Delete(int id);
     }
 }
