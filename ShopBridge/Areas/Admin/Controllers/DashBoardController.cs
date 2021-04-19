@@ -10,7 +10,7 @@ namespace ShopBridge.Areas.Admin.Controllers
         
         public ActionResult Index()
         {
-            return View();
+            return oDashboardContImpl.Index();
         }
 
     }

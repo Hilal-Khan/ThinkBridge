@@ -18,20 +18,11 @@ namespace ShopBridge.Areas.Admin.Controllers
         
         SystemUserRepository SystemUserRepo = new SystemUserRepository();
 
+        private ILoginContImpl oLoginContImpl = new LoginContImpl();
+
         public ActionResult Index()
         {
-            try
-            {
-                if (UserAuthorization.IsLoggedIn())
-                {
-                    return RedirectToAction("Index", "DashBoard", new { area = "Admin" });
-                }
-                return View("Index");
-            }
-            catch (Exception ex)
-            {
-                return HandleException.CustomException(ex);
-            }
+            return oLoginContImpl.Index();
         }
 
         [HttpPost]
@@ -73,7 +64,7 @@ namespace ShopBridge.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                return HandleException.CustomException(ex);
+                return HandleException.CustomException("IndexPost", "Login");
             }
         }
 
@@ -81,10 +72,11 @@ namespace ShopBridge.Areas.Admin.Controllers
         [Authorize]
         public ActionResult Logoff()
         {
-            UserAuthorization.RemoveActivities();
-            FormsAuthentication.SignOut();
-            TempData["LoginError"] = "Successfully logout";
-            return View("Index");
+            return oLoginContImpl.Logoff();
+            //UserAuthorization.RemoveActivities();
+            //FormsAuthentication.SignOut();
+            //TempData["LoginError"] = "Successfully logout";
+            //return View("Index");
         }
 
     }
