@@ -52,34 +52,6 @@ namespace ShopBridge.Areas.Admin.Controllers
         public ActionResult Delete(int id)
         {
             return oProductContImpl.Delete(id);
-            try
-            {
-                CustomPrincipal cp = (System.Web.HttpContext.Current.User as CustomPrincipal);
-                if (cp != null)
-                {
-                    int compId = cp.CompanyID;
-                    int userID = cp.CurrentUserId;
-                    Product oProduct = ProductRepo.getProduct(id, compId).FirstOrDefault();
-                    if (oProduct != null)
-                    {
-                        
-                    }
-                    else
-                    {
-                        this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                        return View("Index");
-                    }
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Login");
-                }
-            }
-            catch (Exception ex)
-            {
-                this.ShowMessage(ConstantEnums.MessageType.Error, "Sorry we are unable to retrieve Product details, Please contact Service provider for the same.");
-                return View("Index");
-            }
         }
     }
 }
